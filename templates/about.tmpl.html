@@ -1,12 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/style.css">
-    <title>ABOUT</title>
-</head>
-<body>
-    <h1>And it's my about page</h1>
-</body>
-</html>
+{{ template "base" }}
+
+{{ define "title" }}
+    ABOUT
+{{ end }}
+
+{{ define "content" }}
+    <h1>ABOUT Page</h1>
+
+    <p>It's my about page</p>
+
+
+    <span>teste</span>
+
+    <a href="/">Home</a>
+{{ end }}
