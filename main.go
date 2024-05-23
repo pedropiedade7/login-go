@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"flag"
 	"html/template"
-	"net/http"
+	"log"
 )
 
 // func StaticHandler(w http.ResponseWriter, r *http.Request) {
@@ -21,56 +21,23 @@ import (
 
 // }
 
-var cache map[string]*template.Template
+func main() {
+	cache := make(map[string]*template.Template)
 
-func ContactHandler(w http.ResponseWriter, r *http.Request) {
-	RenderTemplate(w, "contact")
-}
+	config := Config{Version: "1.0.0"}
 
-func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	RenderTemplate(w, "index")
-}
+	flag.StringVar(&config.Port, "port", "8080", "porta do server")
+	flag.StringVar(&config.Env, "env", "dev", "ambiente")
 
-func AboutHandler(w http.ResponseWriter, r *http.Request) {
-	RenderTemplate(w, "about")
-}
+	flag.Parse()
 
-func RenderTemplate(w http.ResponseWriter, page string) {
-	env := "dev"
-
-	var t *template.Template
-	var err error
-
-	_, exists := cache[page]
-
-	if !exists || env == "dev" {
-		t, err = template.ParseFiles(
-			"templates/"+page+".tmpl.html", "templates/base.layout.tmpl.html")
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		cache[page] = t
-	} else {
-		fmt.Println("Cache Hit")
-		t = cache[page]
+	app := Application{
+		Config: config,
+		Cache:  cache,
 	}
 
-	t.Execute(w, nil)
-}
+	log.Printf("Servidor de %s na versão %s escutando na porta :%s", config.Env, config.Version, config.Port)
 
-func main() {
+	log.Fatal(app.Start())
 
-	cache = make(map[string]*template.Template)
-
-	static := http.Dir("static")
-	staticHandler := http.FileServer(static)
-
-	http.HandleFunc("/", HomeHandler)
-	http.HandleFunc("/contact", ContactHandler)
-	http.HandleFunc("/about", AboutHandler)
-
-	http.Handle("/static/", http.StripPrefix("/static/", staticHandler))
-
-	http.ListenAndServe(":3000", nil)
 }
