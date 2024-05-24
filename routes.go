@@ -8,6 +8,7 @@ func (app *Application) Routes() http.Handler {
 	mux.HandleFunc("/", app.HomeHandler)
 	mux.HandleFunc("/contact", app.ContactHandler)
 	mux.HandleFunc("/about", app.AboutHandler)
+	mux.HandleFunc("/login", app.LoginHandler)
 
 	static := http.Dir("static")
 	staticHandler := http.FileServer(static)
