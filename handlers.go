@@ -1,18 +1,37 @@
 package main
 
-import "net/http"
+import (
+	"log"
+	"net/http"
+)
 
 func (app *Application) ContactHandler(w http.ResponseWriter, r *http.Request) {
-	app.RenderTemplate(w, "contact")
+	err := app.RenderTemplate(w, "contact", TemplateData{
+		Email:    "pedro@pedro.pedro",
+		Telefone: "99 9999-9999",
+		Route:    "contact",
+	})
+	if err != nil {
+		log.Print(err)
+	}
 }
 
 func (app *Application) HomeHandler(w http.ResponseWriter, r *http.Request) {
-	app.RenderTemplate(w, "index")
+	err := app.RenderTemplate(w, "index", TemplateData{Route: "index"})
+	if err != nil {
+		log.Println(err)
+	}
 }
 
 func (app *Application) AboutHandler(w http.ResponseWriter, r *http.Request) {
-	app.RenderTemplate(w, "about")
+	err := app.RenderTemplate(w, "about", TemplateData{Route: "about"})
+	if err != nil {
+		log.Println(err)
+	}
 }
 func (app *Application) LoginHandler(w http.ResponseWriter, r *http.Request) {
-	app.RenderTemplate(w, "login")
+	err := app.RenderTemplate(w, "login", TemplateData{Route: "login"})
+	if err != nil {
+		log.Println(err)
+	}
 }
