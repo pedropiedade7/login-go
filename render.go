@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
-	"time"
 )
 
 //go:embed templates
@@ -15,12 +14,6 @@ type TemplateData struct {
 	Email    string
 	Telefone string
 	Route    string
-}
-
-var funcs = template.FuncMap{
-	"GetYear": func() int {
-		return time.Now().Year()
-	},
 }
 
 func (a *Application) RenderTemplate(w http.ResponseWriter, page string, data any) error {

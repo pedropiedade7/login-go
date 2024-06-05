@@ -17,9 +17,18 @@ func (app *Application) ContactHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *Application) HomeHandler(w http.ResponseWriter, r *http.Request) {
-	err := app.RenderTemplate(w, "index", TemplateData{Route: "index"})
+	// err := app.RenderTemplate(w, "index", TemplateData{Route: "index"})
+	// if err != nil {
+	// 	log.Println(err)
+	// }
+	view, err := NewView("index")
 	if err != nil {
-		log.Println(err)
+		log.Fatal(err)
+	}
+
+	err = view.Render(w, TemplateData{Route: "index"})
+	if err != nil {
+		log.Fatal(err)
 	}
 }
 
